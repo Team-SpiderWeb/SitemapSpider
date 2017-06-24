@@ -13,9 +13,10 @@ class SmapSpider(SitemapSpider):
 
     def parse(self,response):
         if self.count < self.count_max:
-            self.count = self.count + 1
-            self.data['sitemap'].append({"url": response.url})
-            scrapy.Request(response.url, callback=self.parse)
+            if "indonesia" not in response.url:
+                self.count = self.count + 1
+                self.data['sitemap'].append({"url": response.url})
+                scrapy.Request(response.url, callback=self.parse)
             
         else:
             with open('result.json', 'w') as outfile:  
